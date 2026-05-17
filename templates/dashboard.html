@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-info mb-4">📊 Gym Analytics Dashboard</h2>
+
+<!-- STATS CARDS -->
+<div class="row mb-4">
+
+    <div class="col-md-4">
+        <div class="card bg-primary text-white p-3">
+            <h4>👥 Total Members</h4>
+            <h2>{{ total_members }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-success text-white p-3">
+            <h4>💰 Total Revenue</h4>
+            <h2>₹{{ total_revenue }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card bg-warning text-dark p-3">
+            <h4>📅 Today Attendance</h4>
+            <h2>{{ today_attendance }}</h2>
+        </div>
+    </div>
+
+</div>
+
+<!-- GYM IMAGE SECTION -->
+<div class="card bg-dark mt-4 border-0 shadow-lg overflow-hidden rounded-4">
+
+    <!-- HEADER -->
+    <div class="p-4 text-center">
+
+        <h1 style="
+            font-size:60px;
+            font-weight:900;
+            text-transform:uppercase;
+            letter-spacing:5px;
+            background: linear-gradient(90deg,#ff0000,#ffffff,#ff0000);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            text-shadow:0 0 20px rgba(255,0,0,0.4);
+            margin-bottom:10px;
+        ">
+            JFB
+        </h1>
+
+        <h3 style="
+            color:#ff1e1e;
+            font-weight:700;
+            letter-spacing:3px;
+            margin-bottom:15px;
+        ">
+            BODYBUILDING CLUB
+        </h3>
+
+        <p class="text-light"
+           style="
+                font-size:20px;
+                letter-spacing:1px;
+                opacity:0.9;
+           ">
+            Beast Mode • Train Hard • Stay Strong
+        </p>
+
+    </div>
+
+    <!-- LOGO / IMAGE -->
+   <div style="
+    width:92%;
+    height:520px;
+    overflow:hidden;
+    background:black;
+    margin:0 auto 25px auto;
+    border-radius:25px;
+">
+
+        <img src="{{ url_for('static', filename='gym.jpg') }}"
+             style="
+                width:100%;
+                height:100%;
+                object-fit:contain;
+                display:block;
+                padding:15px;
+                filter: drop-shadow(0px 0px 20px rgba(255,0,0,0.5));
+             "
+             alt="Jeffis Fitness Logo">
+
+    </div>
+
+</div>
+</script>
+
+{% endblock %}

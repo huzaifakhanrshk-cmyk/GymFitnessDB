@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-warning mb-4">✏ Edit Member</h2>
+
+<div class="card bg-secondary p-4">
+
+    <form method="POST">
+
+        <div class="mb-3">
+            <label>Name</label>
+            <input type="text" name="name" class="form-control"
+                   value="{{ member[1] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Age</label>
+            <input type="number" name="age" class="form-control"
+                   value="{{ member[2] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Gender</label>
+            <select name="gender" class="form-control">
+
+                <option value="Male" {% if member[3] == 'Male' %}selected{% endif %}>
+                    Male
+                </option>
+
+                <option value="Female" {% if member[3] == 'Female' %}selected{% endif %}>
+                    Female
+                </option>
+
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label>Phone</label>
+            <input type="text" name="phone" class="form-control"
+                   value="{{ member[4] }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Update Member
+        </button>
+
+        <a href="/" class="btn btn-secondary">Cancel</a>
+
+    </form>
+
+</div>
+
+{% endblock %}

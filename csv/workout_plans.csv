@@ -1,0 +1,81 @@
+plan_id,member_id,trainer_id,goal,duration_weeks
+1,18,13,Fat Burn,20
+2,72,10,Rehabilitation,18
+3,79,14,Core Strength,17
+4,71,8,Endurance,19
+5,58,5,Flexibility,24
+6,36,13,Core Strength,19
+7,81,4,General Fitness,18
+8,10,12,General Fitness,11
+9,35,6,Rehabilitation,21
+10,11,3,Endurance,11
+11,50,12,Endurance,10
+12,9,7,Strength Training,14
+13,70,8,Strength Training,5
+14,27,14,Strength Training,16
+15,99,10,Weight Loss,22
+16,49,8,Weight Loss,15
+17,39,13,Strength Training,17
+18,69,12,Core Strength,23
+19,29,8,Flexibility,12
+20,56,8,Weight Loss,16
+21,44,11,Strength Training,9
+22,60,15,Endurance,23
+23,69,1,Strength Training,22
+24,73,11,Weight Loss,6
+25,83,7,Endurance,18
+26,24,1,General Fitness,16
+27,42,4,Fat Burn,14
+28,44,13,Strength Training,12
+29,97,14,Strength Training,12
+30,11,8,Weight Loss,21
+31,7,6,Flexibility,24
+32,9,13,Weight Loss,4
+33,32,4,Weight Loss,23
+34,20,4,Endurance,19
+35,86,2,Cardio Improvement,10
+36,60,12,General Fitness,15
+37,22,10,Cardio Improvement,7
+38,100,14,Endurance,13
+39,14,10,Weight Loss,13
+40,74,11,Strength Training,16
+41,92,4,Muscle Gain,22
+42,89,14,Flexibility,7
+43,90,13,General Fitness,23
+44,16,13,Cardio Improvement,5
+45,45,9,Strength Training,15
+46,9,9,Rehabilitation,4
+47,54,14,Fat Burn,7
+48,56,6,Fat Burn,8
+49,56,3,Core Strength,24
+50,35,10,Core Strength,19
+51,60,7,Cardio Improvement,12
+52,42,14,Flexibility,6
+53,36,15,Fat Burn,11
+54,97,8,Cardio Improvement,23
+55,86,7,Rehabilitation,4
+56,64,14,Rehabilitation,9
+57,63,4,Rehabilitation,12
+58,44,5,Cardio Improvement,12
+59,72,1,Core Strength,10
+60,11,4,Strength Training,19
+61,72,13,Flexibility,19
+62,83,12,Fat Burn,18
+63,3,2,General Fitness,11
+64,52,12,Flexibility,13
+65,85,10,Rehabilitation,19
+66,71,9,Rehabilitation,17
+67,96,9,Rehabilitation,15
+68,90,8,General Fitness,13
+69,33,4,Muscle Gain,10
+70,41,2,Core Strength,9
+71,25,4,Fat Burn,12
+72,93,10,Core Strength,23
+73,37,2,Flexibility,13
+74,30,6,Endurance,13
+75,2,12,Core Strength,8
+76,36,1,Weight Loss,21
+77,38,12,Endurance,24
+78,97,8,Muscle Gain,4
+79,74,5,Fat Burn,19
+80,57,6,Endurance,5
