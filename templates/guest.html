@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JFB Club — Guest View</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #121212; color: white; font-family: Arial; }
+        .top-bar { background: linear-gradient(to right, #00ffcc, #00bfff);
+                   padding: 15px 20px; color: black; font-weight: bold; font-size: 20px;
+                   display: flex; justify-content: space-between; align-items: center; }
+        .section-title { color: #00ffcc; font-weight: bold; margin: 30px 0 10px; }
+        .table { color: white; }
+        .badge-info { background-color: #00bfff; }
+        .guest-note { background: rgba(0,255,204,0.1); border: 1px solid #00ffcc;
+                      border-radius: 10px; padding: 10px 15px; color: #00ffcc;
+                      margin-bottom: 20px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    🏋 JFB Club — Guest View
+    <a href="/login" class="btn btn-dark btn-sm">🔒 Admin Login</a>
+</div>
+
+<div class="container mt-4">
+
+    <div class="guest-note">
+        👁 You are viewing as a guest. No changes can be made. Contact admin to update information.
+    </div>
+
+    <!-- MEMBERS -->
+    <div class="section-title">👥 Members</div>
+    <div class="card bg-dark p-3 mb-4">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Membership</th>
+                        <th>Join Date</th>
+                        <th>Trainer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in members %}
+                    <tr>
+                        <td>{{ m[0] }}</td>
+                        <td>{{ m[1] }}</td>
+                        <td>{{ m[2] }}</td>
+                        <td>{{ m[3] }}</td>
+                        <td><span class="badge bg-info">{{ m[4] }}</span></td>
+                        <td>{{ m[5] }}</td>
+                        <td>{{ m[6] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TRAINERS -->
+    <div class="section-title">🏋 Trainers</div>
+    <div class="card bg-dark p-3 mb-4">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover table-bordered">
+                <thead>
+                    <tr><th>#</th><th>Name</th><th>Specialization</th><th>Phone</th></tr>
+                </thead>
+                <tbody>
+                    {% for t in trainers %}
+                    <tr>
+                        <td>{{ t[0] }}</td>
+                        <td>{{ t[1] }}</td>
+                        <td>{{ t[2] }}</td>
+                        <td>{{ t[3] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ATTENDANCE -->
+    <div class="section-title">📋 Attendance</div>
+    <div class="card bg-dark p-3 mb-4">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover table-bordered">
+                <thead>
+                    <tr><th>Member</th><th>Date</th><th>Check-in</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    {% for a in attendance %}
+                    <tr>
+                        <td>{{ a[0] }}</td>
+                        <td>{{ a[1] }}</td>
+                        <td>{{ a[2] }}</td>
+                        <td>
+                            {% if a[3] == 'Present' %}
+                                <span class="badge bg-success">Present</span>
+                            {% else %}
+                                <span class="badge bg-danger">Absent</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div class="section-title">💰 Payments</div>
+    <div class="card bg-dark p-3 mb-5">
+        <div class="table-responsive">
+            <table class="table table-dark table-hover table-bordered">
+                <thead>
+                    <tr><th>Member</th><th>Amount</th><th>Date</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    {% for p in payments %}
+                    <tr>
+                        <td>{{ p[0] }}</td>
+                        <td>Rs. {{ p[1] }}</td>
+                        <td>{{ p[2] }}</td>
+                        <td><span class="badge bg-success">{{ p[3] }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -177,7 +177,7 @@ def attendance():
     return render_template("attendance.html", data=data)
 
 
-# ---------------- TRAINERS ----------------
+
 # ---------------- TRAINERS ----------------
 @app.route('/trainers')
 @login_required
@@ -211,7 +211,7 @@ def delete_trainer(id):
     db.commit()
     db.close()
     return redirect('/trainers')
-    
+
 # ---------------- ADD PAYMENT ----------------
 @app.route('/pay/<int:id>', methods=['POST'])
 @login_required
@@ -242,6 +242,45 @@ def payments():
     data = cursor.fetchall()
     db.close()
     return render_template("payments.html", data=data)
+
+    # ---------------- GUEST VIEW ----------------
+@app.route('/guest')
+def guest():
+    db = get_db()
+    cursor = db.cursor()
+    
+    cursor.execute("""
+        SELECT m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date,
+               COALESCE(MAX(t.trainer_name), 'Not Assigned')
+        FROM Members m
+        LEFT JOIN Workout_Plans wp ON m.member_id = wp.member_id
+        LEFT JOIN Trainers t ON wp.trainer_id = t.trainer_id
+        GROUP BY m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date
+    """)
+    members = cursor.fetchall()
+
+    cursor.execute("SELECT * FROM Trainers")
+    trainers = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT m.full_name, a.attendance_date, a.check_in_time, a.status
+        FROM Attendance a
+        JOIN Members m ON m.member_id = a.member_id
+        ORDER BY a.attendance_date DESC
+    """)
+    attendance = cursor.fetchall()
+
+    cursor.execute("""
+        SELECT m.full_name, p.amount, p.payment_date, p.payment_status
+        FROM Payments p
+        JOIN Members m ON m.member_id = p.member_id
+        ORDER BY p.payment_date DESC
+    """)
+    payments = cursor.fetchall()
+
+    db.close()
+    return render_template("guest.html", members=members, trainers=trainers,
+                           attendance=attendance, payments=payments)
 
 
 # ---------------- RUN APP ----------------
