@@ -10,10 +10,11 @@ app.secret_key = "gym_management_system_2026"
 # ---------------- DATABASE ----------------
 def get_db():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="ayyden687",   # Change this to your MySQL password
-        database="GymFitnessDB"
+        host="6hm-dl.h.filess.io",
+        user="GymFitnessDB_aloudcanal",
+        password="d2e55d0b16f3ce0522f4c4a6ff22202e8711cee3",
+        database="GymFitnessDB_aloudcanal",
+        port=61002
     )
 
 
