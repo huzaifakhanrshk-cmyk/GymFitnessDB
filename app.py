@@ -3,7 +3,10 @@ import mysql.connector
 from functools import wraps
 from datetime import datetime
 
-app = Flask(__name__)
+import os
+app = Flask(__name__, 
+            template_folder=os.path.join(os.path.dirname(__file__), 'templates'),
+            static_folder=os.path.join(os.path.dirname(__file__), 'static'))
 app.secret_key = "gym_management_system_2026"
 
 
