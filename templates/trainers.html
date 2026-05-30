@@ -4,28 +4,50 @@
 
 <h2 class="text-info mb-3">🏋 Trainers</h2>
 
+<!-- Add Trainer Form -->
+<div class="card bg-secondary p-3 mb-4">
+    <h5 class="text-white mb-3">Add New Trainer</h5>
+    <form action="/trainers/add" method="POST">
+        <div class="row g-2">
+            <div class="col-md-4">
+                <input type="text" name="name" class="form-control" placeholder="Trainer Name" required>
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="specialization" class="form-control" placeholder="Specialization" required>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="phone" class="form-control" placeholder="Phone" required>
+            </div>
+            <div class="col-md-1">
+                <button type="submit" class="btn btn-success w-100">Add</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!-- Trainers Table -->
 <div class="card bg-secondary p-3">
-
     <table class="table table-dark table-hover">
-
         <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Specialization</th>
             <th>Phone</th>
+            <th>Action</th>
         </tr>
-
         {% for t in trainers %}
         <tr>
             <td>{{ t[0] }}</td>
             <td>{{ t[1] }}</td>
             <td>{{ t[2] }}</td>
             <td>{{ t[3] }}</td>
+            <td>
+                <a href="/trainers/delete/{{ t[0] }}" class="btn btn-danger btn-sm"
+                   onclick="return confirm('Delete this trainer?')">Delete</a>
+            </td>
         </tr>
         {% endfor %}
-
     </table>
-
 </div>
 
 {% endblock %}

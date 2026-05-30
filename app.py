@@ -178,6 +178,7 @@ def attendance():
 
 
 # ---------------- TRAINERS ----------------
+# ---------------- TRAINERS ----------------
 @app.route('/trainers')
 @login_required
 def trainers():
@@ -188,7 +189,29 @@ def trainers():
     db.close()
     return render_template("trainers.html", trainers=data)
 
+@app.route('/trainers/add', methods=['POST'])
+@login_required
+def add_trainer():
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("""
+        INSERT INTO Trainers (trainer_name, specialization, phone)
+        VALUES (%s, %s, %s)
+    """, (request.form['name'], request.form['specialization'], request.form['phone']))
+    db.commit()
+    db.close()
+    return redirect('/trainers')
 
+@app.route('/trainers/delete/<int:id>')
+@login_required
+def delete_trainer(id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM Trainers WHERE trainer_id=%s", (id,))
+    db.commit()
+    db.close()
+    return redirect('/trainers')
+    
 # ---------------- ADD PAYMENT ----------------
 @app.route('/pay/<int:id>', methods=['POST'])
 @login_required
