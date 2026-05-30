@@ -2,8 +2,8 @@ from flask import Flask, render_template, request, redirect, session
 import mysql.connector
 from functools import wraps
 from datetime import datetime
-
 import os
+
 app = Flask(__name__, 
             template_folder=os.path.join(os.path.dirname(__file__), 'templates'),
             static_folder=os.path.join(os.path.dirname(__file__), 'static'))
@@ -41,6 +41,7 @@ def login():
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Admin WHERE username=%s AND password=%s", (username, password))
         user = cursor.fetchone()
+        db.close()
         if user:
             session['user'] = username
             return redirect('/dashboard')
@@ -67,6 +68,7 @@ def dashboard():
     total_revenue = cursor.fetchone()[0] or 0
     cursor.execute("SELECT COUNT(*) FROM Attendance WHERE attendance_date = CURDATE() AND status='Present'")
     today_attendance = cursor.fetchone()[0]
+    db.close()
     return render_template("dashboard.html", total_members=total_members,
                            total_revenue=total_revenue, today_attendance=today_attendance)
 
@@ -79,13 +81,14 @@ def home():
     cursor = db.cursor()
     cursor.execute("""
         SELECT m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date,
-               COALESCE(t.trainer_name, 'Not Assigned')
+               COALESCE(MAX(t.trainer_name), 'Not Assigned')
         FROM Members m
         LEFT JOIN Workout_Plans wp ON m.member_id = wp.member_id
         LEFT JOIN Trainers t ON wp.trainer_id = t.trainer_id
-        GROUP BY m.member_id
+        GROUP BY m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date
     """)
     members = cursor.fetchall()
+    db.close()
     return render_template("index.html", members=members)
 
 
@@ -101,6 +104,7 @@ def add_member():
     """, (request.form['name'], request.form['gender'], request.form['phone'],
           request.form.get('email',''), request.form.get('membership_type','Monthly')))
     db.commit()
+    db.close()
     return redirect('/')
 
 
@@ -119,7 +123,9 @@ def edit_member(id):
         """, (request.form['name'], request.form['gender'], request.form['phone'],
               request.form.get('membership_type','Monthly'), id))
         db.commit()
+        db.close()
         return redirect('/')
+    db.close()
     return render_template("edit.html", member=member)
 
 
@@ -132,6 +138,7 @@ def delete_member(id):
         cursor = db.cursor()
         cursor.execute("DELETE FROM Members WHERE member_id=%s", (id,))
         db.commit()
+        db.close()
         return redirect('/')
     except Exception as e:
         print("DELETE ERROR:", e)
@@ -149,6 +156,7 @@ def mark_attendance(id):
         VALUES (%s, CURDATE(), %s, 'Present')
     """, (id, datetime.now().strftime("%H:%M:%S")))
     db.commit()
+    db.close()
     return redirect('/')
 
 
@@ -164,7 +172,9 @@ def attendance():
         JOIN Members m ON m.member_id = a.member_id
         ORDER BY a.attendance_date DESC
     """)
-    return render_template("attendance.html", data=cursor.fetchall())
+    data = cursor.fetchall()
+    db.close()
+    return render_template("attendance.html", data=data)
 
 
 # ---------------- TRAINERS ----------------
@@ -174,7 +184,9 @@ def trainers():
     db = get_db()
     cursor = db.cursor()
     cursor.execute("SELECT * FROM Trainers")
-    return render_template("trainers.html", trainers=cursor.fetchall())
+    data = cursor.fetchall()
+    db.close()
+    return render_template("trainers.html", trainers=data)
 
 
 # ---------------- ADD PAYMENT ----------------
@@ -188,6 +200,7 @@ def add_payment(id):
         VALUES (%s, %s, CURDATE(), 'Paid')
     """, (id, request.form['amount']))
     db.commit()
+    db.close()
     return redirect('/')
 
 
@@ -203,7 +216,9 @@ def payments():
         JOIN Members m ON m.member_id = p.member_id
         ORDER BY p.payment_date DESC
     """)
-    return render_template("payments.html", data=cursor.fetchall())
+    data = cursor.fetchall()
+    db.close()
+    return render_template("payments.html", data=data)
 
 
 # ---------------- RUN APP ----------------
