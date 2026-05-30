@@ -2,41 +2,40 @@
 <html>
 <head>
     <title>JFB Club Login</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         body {
             margin: 0;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
             font-family: Arial;
         }
 
-        /* BACKGROUND IMAGE */
         .bg {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
             background: url("{{ url_for('static', filename='gym.jpg') }}") no-repeat center center;
             background-size: cover;
             filter: brightness(0.5);
+            z-index: 0;
         }
 
-        /* CENTER LOGIN OVER IMAGE */
         .login-wrapper {
             position: relative;
             z-index: 2;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
 
-        /* GLASS LOGIN BOX */
         .login-box {
-            width: 350px;
-            padding: 30px;
+            width: 100%;
+            max-width: 380px;
+            padding: 30px 25px;
             border-radius: 20px;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(15px);
@@ -48,7 +47,7 @@
         .login-title {
             text-align: center;
             margin-bottom: 20px;
-            font-size: 22px;
+            font-size: clamp(18px, 5vw, 22px);
             font-weight: bold;
             color: #00ffcc;
             text-shadow: 0 0 10px #00ffcc;
@@ -60,9 +59,15 @@
             color: white;
         }
 
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
         .form-control:focus {
+            background: transparent;
             box-shadow: 0 0 10px #00bfff;
             border-color: #00bfff;
+            color: white;
         }
 
         .btn-custom {
@@ -71,39 +76,41 @@
             border: none;
             font-weight: bold;
             color: black;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 8px;
         }
 
+        .btn-custom:hover {
+            opacity: 0.9;
+        }
     </style>
 </head>
 
 <body>
 
-<!-- BACKGROUND IMAGE -->
 <div class="bg"></div>
 
-<!-- LOGIN OVER IMAGE -->
 <div class="login-wrapper">
-
     <div class="login-box">
 
         <div class="login-title">🔥 JFB CLUB LOGIN 🔥</div>
 
-        <form method="POST">
+        {% if error %}
+        <div class="alert alert-danger text-center py-2">{{ error }}</div>
+        {% endif %}
 
+        <form method="POST">
             <div class="mb-3">
                 <input type="text" name="username" class="form-control" placeholder="Username" required>
             </div>
-
             <div class="mb-3">
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
-
             <button type="submit" class="btn btn-custom">LOGIN</button>
-
         </form>
 
     </div>
-
 </div>
 
 </body>
