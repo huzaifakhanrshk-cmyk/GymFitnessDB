@@ -120,18 +120,18 @@ def add_member():
         db2 = get_db()
         cursor2 = db2.cursor()
         cursor2.execute("""
-            SELECT m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date,
+            SELECT m.member_id, m.full_name, m.age, m.gender, m.phone, m.membership_type, m.join_date,
                    COALESCE(MAX(t.trainer_name), 'Not Assigned')
             FROM Members m
             LEFT JOIN Workout_Plans wp ON m.member_id = wp.member_id
             LEFT JOIN Trainers t ON wp.trainer_id = t.trainer_id
-            GROUP BY m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date
+            GROUP BY m.member_id, m.full_name, m.age, m.gender, m.phone, m.membership_type, m.join_date
         """)
         members = cursor2.fetchall()
         db2.close()
         return render_template("index.html", members=members, error=msg)
 
-        
+
 # ---------------- EDIT MEMBER ----------------
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -168,6 +168,7 @@ def edit_member(id):
     db.close()
     return render_template("edit.html", member=member, trainers=trainers,
                            current_trainer_id=current_trainer_id)
+
 
 # ---------------- DELETE MEMBER ----------------
 @app.route('/delete/<int:id>')
@@ -207,7 +208,7 @@ def attendance():
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""
-        SELECT m.full_name, a.attendance_date, a.check_in_time, a.status
+        SELECT m.full_name, a.attendance_date, a.check_in_time, a.status, a.attendance_id
         FROM Attendance a
         JOIN Members m ON m.member_id = a.member_id
         ORDER BY a.attendance_date DESC
@@ -216,6 +217,17 @@ def attendance():
     db.close()
     return render_template("attendance.html", data=data)
 
+
+# ---------------- DELETE ATTENDANCE ----------------
+@app.route('/attendance/delete/<int:id>')
+@login_required
+def delete_attendance(id):
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("DELETE FROM Attendance WHERE attendance_id=%s", (id,))
+    db.commit()
+    db.close()
+    return redirect('/attendance')
 
 
 # ---------------- TRAINERS ----------------
@@ -252,6 +264,7 @@ def delete_trainer(id):
     db.close()
     return redirect('/trainers')
 
+
 # ---------------- ADD PAYMENT ----------------
 @app.route('/pay/<int:id>', methods=['POST'])
 @login_required
@@ -283,19 +296,20 @@ def payments():
     db.close()
     return render_template("payments.html", data=data)
 
-    # ---------------- GUEST VIEW ----------------
+
+# ---------------- GUEST VIEW ----------------
 @app.route('/guest')
 def guest():
     db = get_db()
     cursor = db.cursor()
-    
+
     cursor.execute("""
-        SELECT m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date,
+        SELECT m.member_id, m.full_name, m.age, m.gender, m.phone, m.membership_type, m.join_date,
                COALESCE(MAX(t.trainer_name), 'Not Assigned')
         FROM Members m
         LEFT JOIN Workout_Plans wp ON m.member_id = wp.member_id
         LEFT JOIN Trainers t ON wp.trainer_id = t.trainer_id
-        GROUP BY m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date
+        GROUP BY m.member_id, m.full_name, m.age, m.gender, m.phone, m.membership_type, m.join_date
     """)
     members = cursor.fetchall()
 
