@@ -80,12 +80,12 @@ def home():
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""
-        SELECT m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date,
+        SELECT m.member_id, m.full_name, m.age, m.gender, m.phone, m.membership_type, m.join_date,
                COALESCE(MAX(t.trainer_name), 'Not Assigned')
         FROM Members m
         LEFT JOIN Workout_Plans wp ON m.member_id = wp.member_id
         LEFT JOIN Trainers t ON wp.trainer_id = t.trainer_id
-        GROUP BY m.member_id, m.full_name, m.gender, m.phone, m.membership_type, m.join_date
+        GROUP BY m.member_id, m.full_name, m.age, m.gender, m.phone, m.membership_type, m.join_date
     """)
     members = cursor.fetchall()
     db.close()
@@ -130,7 +130,6 @@ def add_member():
         members = cursor2.fetchall()
         db2.close()
         return render_template("index.html", members=members, error=msg)
-
 
         
 # ---------------- EDIT MEMBER ----------------
