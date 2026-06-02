@@ -142,16 +142,32 @@ def edit_member(id):
     member = cursor.fetchone()
     if request.method == 'POST':
         cursor.execute("""
-            UPDATE Members SET full_name=%s, gender=%s, phone=%s, membership_type=%s
+            UPDATE Members SET full_name=%s, age=%s, gender=%s, phone=%s, membership_type=%s
             WHERE member_id=%s
-        """, (request.form['name'], request.form['gender'], request.form['phone'],
-              request.form.get('membership_type','Monthly'), id))
+        """, (request.form['name'], request.form.get('age', 0), request.form['gender'],
+              request.form['phone'], request.form.get('membership_type','Monthly'), id))
         db.commit()
+        trainer_id = request.form.get('trainer_id')
+        if trainer_id:
+            cursor.execute("DELETE FROM Workout_Plans WHERE member_id=%s", (id,))
+            cursor.execute("""
+                INSERT INTO Workout_Plans(member_id, trainer_id, goal, duration_weeks)
+                VALUES (%s, %s, 'General Fitness', 12)
+            """, (id, trainer_id))
+            db.commit()
+        else:
+            cursor.execute("DELETE FROM Workout_Plans WHERE member_id=%s", (id,))
+            db.commit()
         db.close()
         return redirect('/')
+    cursor.execute("SELECT * FROM Trainers")
+    trainers = cursor.fetchall()
+    cursor.execute("SELECT trainer_id FROM Workout_Plans WHERE member_id=%s LIMIT 1", (id,))
+    wp = cursor.fetchone()
+    current_trainer_id = wp[0] if wp else None
     db.close()
-    return render_template("edit.html", member=member)
-
+    return render_template("edit.html", member=member, trainers=trainers,
+                           current_trainer_id=current_trainer_id)
 
 # ---------------- DELETE MEMBER ----------------
 @app.route('/delete/<int:id>')

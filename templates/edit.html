@@ -5,7 +5,6 @@
 <h2 class="text-warning mb-4">✏ Edit Member</h2>
 
 <div class="card bg-secondary p-4">
-
     <form method="POST">
 
         <div class="mb-3">
@@ -23,15 +22,8 @@
         <div class="mb-3">
             <label>Gender</label>
             <select name="gender" class="form-control">
-
-                <option value="Male" {% if member[3] == 'Male' %}selected{% endif %}>
-                    Male
-                </option>
-
-                <option value="Female" {% if member[3] == 'Female' %}selected{% endif %}>
-                    Female
-                </option>
-
+                <option value="Male" {% if member[3] == 'Male' %}selected{% endif %}>Male</option>
+                <option value="Female" {% if member[3] == 'Female' %}selected{% endif %}>Female</option>
             </select>
         </div>
 
@@ -41,14 +33,31 @@
                    value="{{ member[4] }}" required>
         </div>
 
-        <button type="submit" class="btn btn-success">
-            Update Member
-        </button>
+        <div class="mb-3">
+            <label>Membership Type</label>
+            <select name="membership_type" class="form-control">
+                <option {% if member[5] == 'Monthly' %}selected{% endif %}>Monthly</option>
+                <option {% if member[5] == 'Annual' %}selected{% endif %}>Annual</option>
+                <option {% if member[5] == 'Weekly' %}selected{% endif %}>Weekly</option>
+            </select>
+        </div>
 
+        <div class="mb-3">
+            <label>Assign Trainer</label>
+            <select name="trainer_id" class="form-control">
+                <option value="">-- No Trainer --</option>
+                {% for t in trainers %}
+                <option value="{{ t[0] }}" {% if t[0] == current_trainer_id %}selected{% endif %}>
+                    {{ t[1] }} — {{ t[2] }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Member</button>
         <a href="/" class="btn btn-secondary">Cancel</a>
 
     </form>
-
 </div>
 
 {% endblock %}
