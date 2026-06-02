@@ -3,6 +3,9 @@
 {% block content %}
 
 <h2 class="text-success mb-3">Members</h2>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
 
 <!-- ADD MEMBER FORM -->
 <div class="card bg-secondary p-3 mb-4">
