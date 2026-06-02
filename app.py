@@ -99,14 +99,14 @@ def add_member():
     db = get_db()
     cursor = db.cursor()
     cursor.execute("""
-        INSERT INTO Members(full_name, gender, phone, email, membership_type, join_date)
-        VALUES (%s, %s, %s, %s, %s, CURDATE())
-    """, (request.form['name'], request.form['gender'], request.form['phone'],
-          request.form.get('email',''), request.form.get('membership_type','Monthly')))
+        INSERT INTO Members(full_name, age, gender, phone, email, membership_type, join_date)
+        VALUES (%s, %s, %s, %s, %s, %s, CURDATE())
+    """, (request.form['name'], request.form.get('age', 0), request.form['gender'],
+          request.form['phone'], request.form.get('email',''),
+          request.form.get('membership_type','Monthly')))
     db.commit()
     db.close()
     return redirect('/')
-
 
 # ---------------- EDIT MEMBER ----------------
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
